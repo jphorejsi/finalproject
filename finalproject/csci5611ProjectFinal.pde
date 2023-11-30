@@ -1,5 +1,3 @@
-int num = 0;
-
 void setup(){
   size(1000,1000);
   surface.setTitle("Inverse Kinematics [CSCI 5611 Example]");
@@ -16,13 +14,8 @@ float a0 = 0.3; //Shoulder joint
 float l1 = 200;
 float a1 = 0.3; //connecting joint
 
-//left first link
-float l2 = 150;
-float a2 = 0.3; //Wrist joint
-
 Vec2 start_l1, endPoint;
 
-int dir = 1;
 
 float old_a0, old_a1, old_a2;
 
@@ -43,8 +36,9 @@ void solve(){
     a1 += angleDiff;
   else
     a1 -= angleDiff;
+  if(a1 > 1){a1 = 1;}
+  if(a1 < -1){a1 = -1;}
   fk();
-  angleDiff *= 0.5;
     
   //Update shoulder joint
   startToGoal = goal.minus(root);
@@ -57,8 +51,9 @@ void solve(){
     a0 += angleDiff;
   else
     a0 -= angleDiff;
+  if(a0 > -0.7){a0 = -0.7;}
+  if(a0 < -2.5){a0 = -2.5;}
   fk();
-  angleDiff *= 0.5;
 }
 
 void fk(){
