@@ -3,13 +3,14 @@ void setup(){
   surface.setTitle("Inverse Kinematics [CSCI 5611 Example]");
 }
 
+Vec2 goal;
 
 //ARC
 Vec2 arcCenter = new Vec2(500, 750);
 float arcRadius = 250;
 float arcStart = PI;
 float arcEnd = TWO_PI;
-float arcStep = 0.25; 
+float arcStep = 0.01; 
 
 int lastUpdateTime = 0;
 int updateInterval = 250; // 0.25 seconds in milliseconds
@@ -28,21 +29,17 @@ float a1 = 0.3; //connecting joint
 
 Vec2 start_l1, endPoint;
 
-
 float old_a0, old_a1, old_a2;
 
 void solve(){  
-  if(millis() - lastUpdateTime > updateInterval){
-    lastUpdateTime = millis();
-    currentAngle += arcStep;
-    if(currentAngle > arcEnd){
-      currentAngle = arcStart;
-    }
+  currentAngle += arcStep;
+  if (currentAngle > arcEnd) {
+    currentAngle = arcStart;
   }
 
   float x = arcCenter.x + arcRadius * cos(currentAngle);
   float y = arcCenter.y + arcRadius * sin(currentAngle);
-  Vec2 goal = new Vec2(x, y);
+  goal = new Vec2(x, y);
   Vec2 rightgoal = new Vec2(mouseX, mouseY);
   
   Vec2 startToGoal, startToEndEffector;
@@ -110,6 +107,7 @@ void draw(){
   rect(0, -armW/2, l1, armW);
   popMatrix();
   arc(500, 750, 500, 300, PI, TWO_PI);
+  circle(goal.x, goal.y, 20);
 }
 
 
