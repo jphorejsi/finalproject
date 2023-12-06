@@ -41,16 +41,13 @@ Vec2 lerp(Vec2 start, Vec2 end, float t) {
 }
 
 void solve(){
-  
   //create only once when its legs turn
   if(trigger == 0){
-    createPath(new Vec2(375, 700), 1);
+    float mag = 1;
+    createPath(new Vec2(375, 700), mag);
     t = 0;
     trigger = 1;
   }
-  
-  //goal = new Vec2(x, y);
-  //goal = new Vec2(mouseX, mouseY);
   
   if(t < 1){
     goal = lerp(v1, v2, t);
@@ -71,6 +68,13 @@ void solve(){
   if(t >= 4 && t < 5){
     goal = lerp(v5, v6, t - 4);
     t += speed;
+  }
+  if(t >= 5 && t < 6){  //on ground
+    goal = lerp(v6, v1, t - 5);
+    t += speed/5;
+  }
+  if(t > 6){
+    t = 0;
   }
   
   Vec2 startToGoal, startToEndEffector;
@@ -101,8 +105,8 @@ void solve(){
     a0 += angleDiff;
   else
     a0 -= angleDiff;
-  //if(a0 < 0){ a0 = 0; } // Prevents moving downwards past straight
-  //if(a0 > PI/1.2){ a0 = PI/1.2; } // Limits upward movement to 90 degrees
+  if(a0 < 0){ a0 = 0; } // Prevents moving downwards past straight
+  if(a0 > PI/1.2){ a0 = PI/1.2; } // Limits upward movement to 90 degrees
   fk();
   
   //update right knee joint
